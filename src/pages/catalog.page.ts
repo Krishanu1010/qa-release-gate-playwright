@@ -21,6 +21,10 @@ export class CatalogPage {
     await this.page.getByLabel('Sort').selectOption(order);
   }
 
+  async addProductToCart(productName: string): Promise<void> {
+    await this.productCard(productName).getByRole('button', { name: 'Add to cart' }).click();
+  }
+
   productCardAt(position: number): Locator {
     return this.productCards.nth(position);
   }

@@ -28,8 +28,9 @@ flowchart TD
 | `config/environment.ts` | Select local, CI, or staging target; validate `BASE_URL` before startup | Credentials and test behavior |
 | `playwright.config.ts` | Runner defaults, projects, retries, artifacts, and local demo server lifecycle | Business assertions |
 | `tests/` | Scenario intent and meaningful expected outcomes | Low-level duplicated page selectors |
-| `src/fixtures/test.ts` | Provide the shared `CatalogPage` fixture and re-export Playwright's `expect` | Unrelated global mutable state |
-| `src/pages/catalog.page.ts` | Catalog-specific locators and user actions | Assertions that belong to scenario intent |
+| `src/fixtures/test.ts` | Provide focused catalog, cart, and checkout page fixtures; re-export Playwright's `expect` | Unrelated global mutable state |
+| `src/pages/` | Page-specific locators and user actions for catalog, cart summary, and checkout | Assertions that belong to scenario intent |
+| `src/data/store-data.ts` | Synthetic product identifiers and customer details shared by scenarios | Passwords, tokens, or production records |
 | `src/api/` *(next milestone)* | Typed endpoint calls and response validation | UI navigation |
 | `src/data/` *(next milestone)* | Synthetic, non-secret deterministic test cases | Passwords, tokens, or production records |
 
@@ -52,4 +53,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current code includes the catalog POM and focused fixture; the catalog smoke and sort tests use them while cart and checkout scenarios still use Playwright's built-in page fixture. Follow-up milestones will migrate other scenarios when their page responsibilities are clear, then introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code includes focused catalog, cart, and checkout page objects with typed fixtures. UI scenarios use synthetic centralized data while assertions remain in the tests. Follow-up milestones will introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.

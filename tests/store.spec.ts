@@ -1,4 +1,5 @@
 import { expect, test } from '../src/fixtures/test';
+import { customers, demoProducts } from '../src/data/store-data';
 
 test.describe('Storefront release gate', () => {
   test('catalog renders products and clear availability states @smoke', async ({ catalogPage }) => {
@@ -18,28 +19,27 @@ test.describe('Storefront release gate', () => {
     await expect(catalogPage.productCardAt(3)).toContainText('Daypack 18L');
   });
 
-  test('cart count updates and empty checkout is blocked @smoke', async ({ page }) => {
-    await page.goto('/');
-    await page.getByRole('button', { name: 'Place order' }).click();
-    await expect(page.getByRole('status')).toHaveText('Your cart is empty.');
-    await page.locator('[data-id="MUG-01"]').click();
-    await expect(page.locator('#cart-count')).toHaveText('1');
+  test('cart count updates and empty checkout is blocked @smoke', async ({ catalogPage, cartPage, checkoutPage }) => {
+    await catalogPage.goto();
+    await checkoutPage.placeOrder();
+    await expect(checkoutPage.statusMessage).toHaveText('Your cart is empty.');
+    await catalogPage.addProductToCart(demoProducts.mug.name);
+    await expect(cartPage.itemCount).toHaveText('1');
   });
 
-  test('checkout validates required customer fields', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[data-id="MUG-01"]').click();
-    await page.getByRole('button', { name: 'Place order' }).click();
-    await expect(page.getByRole('status')).toHaveText('Enter your name and email to continue.');
+  test('checkout validates required customer fields', async ({ catalogPage, checkoutPage }) => {
+    await catalogPage.goto();
+    await catalogPage.addProductToCart(demoProducts.mug.name);
+    await checkoutPage.placeOrder();
+    await expect(checkoutPage.statusMessage).toHaveText('Enter your name and email to continue.');
   });
 
-  test('customer can complete an order and cart resets', async ({ page }) => {
-    await page.goto('/');
-    await page.locator('[data-id="BAG-02"]').click();
-    await page.getByLabel('Name').fill('Casey Tester');
-    await page.getByLabel('Email').fill('casey@example.com');
-    await page.getByRole('button', { name: 'Place order' }).click();
-    await expect(page.getByRole('status')).toContainText('Order QA-');
-    await expect(page.locator('#cart-count')).toHaveText('0');
+  test('customer can complete an order and cart resets', async ({ catalogPage, cartPage, checkoutPage }) => {
+    await catalogPage.goto();
+    await catalogPage.addProductToCart(demoProducts.daypack.name);
+    await checkoutPage.fillCustomerDetails(customers.validCheckout);
+    await checkoutPage.placeOrder();
+    await expect(checkoutPage.statusMessage).toContainText('Order QA-');
+    await expect(cartPage.itemCount).toHaveText('0');
   });
 });
