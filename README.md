@@ -25,6 +25,8 @@ pnpm test
 
 The Playwright config starts the demo app automatically on `http://127.0.0.1:4173`. The HTML report is generated at `playwright-report/`. GitHub Actions runs Chromium, Firefox, and WebKit; on Windows, the default local run uses Chromium and WebKit because Firefox may require an additional system runtime.
 
+See [`docs/architecture.md`](docs/architecture.md) for the framework boundaries and environment design.
+
 On Windows, if `--with-deps` is not supported, run `pnpm exec playwright install` instead.
 
 Run focused checks:
@@ -36,7 +38,7 @@ pnpm test:smoke    # Critical tagged journeys
 pnpm report        # Open the last HTML report
 ```
 
-Set `BASE_URL` to point the suite at a separately hosted compatible demo app. API tests use Playwright's request fixture and the same configured base URL.
+Local and CI runs start the included demo app automatically. For a compatible staging target, copy `.env.example` to `.env`, set `TEST_ENV=staging` and `BASE_URL` to the target URL; the local demo server will not be started. API tests use the configured base URL.
 
 ## Coverage map
 
