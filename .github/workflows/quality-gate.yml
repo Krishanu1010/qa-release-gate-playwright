@@ -29,6 +29,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps
+      - name: Type check
+        run: pnpm typecheck
       - name: Run release gate
         run: pnpm test
       - name: Upload Playwright report and failure artifacts

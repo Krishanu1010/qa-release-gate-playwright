@@ -19,12 +19,13 @@ Requirements: Node.js 20 or newer.
 ```bash
 pnpm install
 pnpm exec playwright install --with-deps
+pnpm typecheck
 pnpm test
 ```
 
-The Playwright config starts the demo app automatically on `http://127.0.0.1:4173`. The HTML report is generated at `playwright-report/`.
+The Playwright config starts the demo app automatically on `http://127.0.0.1:4173`. The HTML report is generated at `playwright-report/`. GitHub Actions runs Chromium, Firefox, and WebKit; on Windows, the default local run uses Chromium and WebKit because Firefox may require an additional system runtime.
 
-On Windows, if `--with-deps` is not supported, run `npx playwright install` instead.
+On Windows, if `--with-deps` is not supported, run `pnpm exec playwright install` instead.
 
 Run focused checks:
 

@@ -1,5 +1,13 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const projects = [
+  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  ...(process.platform === 'win32' && !process.env.CI
+    ? []
+    : [{ name: 'firefox', use: { ...devices['Desktop Firefox'] } }]),
+  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+];
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -13,11 +21,9 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
-  projects: [
-    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
-    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
-  ],
+  // Firefox's Windows binary requires a system runtime that is not present on every Windows machine.
+  // Keep it in CI's full cross-browser matrix while keeping the default local Windows run reliable.
+  projects,
   webServer: {
     command: 'node demo/server.js',
     url: 'http://127.0.0.1:4173/health',

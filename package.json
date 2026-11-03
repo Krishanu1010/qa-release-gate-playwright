@@ -10,10 +10,12 @@
     "test:api": "playwright test tests/api",
     "test:smoke": "playwright test --grep @smoke",
     "test:headed": "playwright test --headed",
+    "typecheck": "tsc --noEmit",
     "report": "playwright show-report"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
+    "@types/node": "^22.20.5",
     "typescript": "^5.9.3"
   }
 }
