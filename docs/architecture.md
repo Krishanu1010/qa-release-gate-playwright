@@ -28,9 +28,9 @@ flowchart TD
 | `config/environment.ts` | Select local, CI, or staging target; validate `BASE_URL` before startup | Credentials and test behavior |
 | `playwright.config.ts` | Runner defaults, projects, retries, artifacts, and local demo server lifecycle | Business assertions |
 | `tests/` | Scenario intent and meaningful expected outcomes | Low-level duplicated page selectors |
-| `src/fixtures/test.ts` | Provide focused catalog, cart, checkout, and API-client fixtures; re-export Playwright's `expect` | Unrelated global mutable state |
-| `src/pages/` | Page-specific locators and user actions for catalog, cart summary, and checkout | Assertions that belong to scenario intent |
-| `src/data/store-data.ts` | Synthetic product definitions/order and customer details shared by scenarios | Passwords, tokens, or production records |
+| `src/fixtures/test.ts` | Provide focused catalog, cart, checkout, login, account, and API-client fixtures; re-export Playwright's `expect` | Unrelated global mutable state |
+| `src/pages/` | Page-specific locators and user actions for catalog, cart summary, checkout, login, and account | Assertions that belong to scenario intent |
+| `src/data/` | Synthetic store data and ephemeral test identities shared by scenarios | Production credentials or records |
 | `src/api/store-api.client.ts` | Typed wrappers for catalog and order endpoint calls | UI navigation and scenario assertions |
 | Allure reporter | Run metadata, environment context, and test attachments in `allure-results/` | Stale output from earlier runs or secrets |
 
@@ -40,7 +40,7 @@ flowchart TD
 - `ci` is selected automatically by GitHub Actions and starts the same demo app in the runner.
 - `staging` requires an explicit `BASE_URL` and does not start the local demo app.
 - `.env.example` documents local overrides. Copy it to `.env`; `.env` is ignored by Git.
-- Secrets are supplied through the shell or GitHub Actions secrets when a later milestone needs authentication. No credentials belong in source files or stored browser state committed to Git.
+- Local/CI demo auth passwords are generated randomly per run in memory. Staging credentials must be supplied through environment variables or GitHub Actions secrets. No credentials belong in source files or stored browser state committed to Git.
 
 ## Test design rules
 
@@ -53,4 +53,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current code includes focused catalog, cart, and checkout page objects, a typed API client fixture, centralized synthetic data, and Allure result generation. UI and API scenarios use these boundaries while assertions remain in tests. Follow-up milestones will add authentication state and richer CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code includes catalog, cart, checkout, login, and account page objects; typed API fixtures; centralized synthetic data; session and authorization checks; and Allure result generation. UI and API scenarios use these boundaries while assertions remain in tests. Follow-up milestones will improve authentication reuse for parallel runs and add richer CI evidence. Docker remains optional until it solves an observed environment-parity problem.

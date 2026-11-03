@@ -7,6 +7,7 @@ A recruiter-friendly QA engineering project showing how I plan and automate a sm
 ## What this demonstrates
 
 - **Functional testing:** catalog, stock state, sorting, cart, checkout validation, and successful order flow.
+- **Authentication:** generated test-only credentials, HTTP-only sessions, logout, and customer/agent authorization boundaries.
 - **Automation design:** Playwright Test with isolated, readable tests and semantic locators.
 - **API testing:** product contract, sort behavior, order validation, and successful order creation.
 - **Release readiness:** smoke tags, three-browser execution, retry policy in CI, and failure traces/screenshots/video.
@@ -53,6 +54,9 @@ Local and CI runs start the included demo app automatically. For a compatible st
 | Checkout | Required name/email validation | P1 | UI |
 | Orders | Valid order creates confirmation and resets cart | P1 | UI + API |
 | Orders | Missing items/email returns a client error | P1 | API |
+| Authentication | Invalid credentials and anonymous API access are rejected | P1 | UI + API |
+| Authorization | Customer is denied staff reports; agent is allowed | P1 | UI + API |
+| Session | Customer session survives reload and logout invalidates it | P1 | UI + API |
 
 More detailed assumptions, risks, and sample defects live in [`docs/test-strategy.md`](docs/test-strategy.md) and [`docs/defect-reports.md`](docs/defect-reports.md).
 
@@ -65,7 +69,10 @@ GitHub Actions runs the suite on pushes and pull requests, installs Playwright b
 ```text
 demo/                   Self-contained demo storefront and API
 tests/store.spec.ts     Browser functional and smoke coverage
+tests/auth/             Login, session, and authorization scenarios
 tests/api/              API contract and validation coverage
+src/pages/              Page objects and reusable page actions
+src/fixtures/           Typed Playwright fixtures for pages, APIs, and users
 docs/                   Test strategy, traceability, sample defects
 .github/workflows/      Continuous integration release gate
 ```

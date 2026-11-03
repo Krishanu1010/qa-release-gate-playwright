@@ -1,16 +1,18 @@
 import 'dotenv/config';
 import { defineConfig, devices } from '@playwright/test';
 import { environment } from './config/environment';
+import { authTestUsers } from './src/data/auth-test-users';
+import type { FrameworkFixtures } from './src/fixtures/test';
 
 const projects = [
-  { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+  { name: 'chromium', use: { ...devices['Desktop Chrome'], authUsers: authTestUsers } },
   ...(process.platform === 'win32' && !process.env.CI
     ? []
-    : [{ name: 'firefox', use: { ...devices['Desktop Firefox'] } }]),
-  { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    : [{ name: 'firefox', use: { ...devices['Desktop Firefox'], authUsers: authTestUsers } }]),
+  { name: 'webkit', use: { ...devices['Desktop Safari'], authUsers: authTestUsers } },
 ];
 
-export default defineConfig({
+export default defineConfig<FrameworkFixtures>({
   testDir: './tests',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
@@ -45,5 +47,11 @@ export default defineConfig({
     url: 'http://127.0.0.1:4173/health',
     reuseExistingServer: !process.env.CI,
     timeout: 15_000,
+    env: {
+      QA_CUSTOMER_EMAIL: authTestUsers.customer.email,
+      QA_CUSTOMER_PASSWORD: authTestUsers.customer.password,
+      QA_AGENT_EMAIL: authTestUsers.agent.email,
+      QA_AGENT_PASSWORD: authTestUsers.agent.password,
+    },
   } : undefined,
 });

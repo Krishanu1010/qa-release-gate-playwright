@@ -1,0 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Account | Trail Supply</title>
+<style>*{box-sizing:border-box}body{margin:0;font:16px/1.5 system-ui,sans-serif;color:#16251f;background:#f5f7f4}header{background:#143b2d;color:white;padding:22px max(5vw,20px)}main{max-width:760px;margin:38px auto;padding:0 20px}.card{background:white;border:1px solid #dce5df;border-radius:12px;padding:24px}.muted{color:#617068}button{font:inherit;border-radius:7px;padding:10px 14px;border:0;background:#176b48;color:white;cursor:pointer}a{color:#176b48}</style></head>
+<body><header>Trail Supply / Account</header><main><section class="card"><h1>Account overview</h1><p data-testid="welcome-message"></p><p data-testid="account-role"></p><div id="staff-tools" hidden><a href="/api/staff/reports">Staff reports API</a></div><button id="sign-out">Sign out</button></section></main>
+<script>
+async function loadAccount(){const response=await fetch('/api/session');if(!response.ok){window.location.replace('/login');return}const {user}=await response.json();document.querySelector('[data-testid="welcome-message"]').textContent=`Welcome, ${user.displayName}.`;document.querySelector('[data-testid="account-role"]').textContent=`Role: ${user.role}`;if(user.role==='agent')document.querySelector('#staff-tools').hidden=false}
+document.querySelector('#sign-out').onclick=async()=>{await fetch('/api/session/logout',{method:'POST'});window.location.replace('/login')};loadAccount();
+</script></body></html>
