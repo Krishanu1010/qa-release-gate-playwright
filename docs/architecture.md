@@ -28,10 +28,10 @@ flowchart TD
 | `config/environment.ts` | Select local, CI, or staging target; validate `BASE_URL` before startup | Credentials and test behavior |
 | `playwright.config.ts` | Runner defaults, projects, retries, artifacts, and local demo server lifecycle | Business assertions |
 | `tests/` | Scenario intent and meaningful expected outcomes | Low-level duplicated page selectors |
-| `src/fixtures/test.ts` | Provide focused catalog, cart, and checkout page fixtures; re-export Playwright's `expect` | Unrelated global mutable state |
+| `src/fixtures/test.ts` | Provide focused catalog, cart, checkout, and API-client fixtures; re-export Playwright's `expect` | Unrelated global mutable state |
 | `src/pages/` | Page-specific locators and user actions for catalog, cart summary, and checkout | Assertions that belong to scenario intent |
-| `src/data/store-data.ts` | Synthetic product identifiers and customer details shared by scenarios | Passwords, tokens, or production records |
-| `src/api/` *(next milestone)* | Typed endpoint calls and response validation | UI navigation |
+| `src/data/store-data.ts` | Synthetic product definitions/order and customer details shared by scenarios | Passwords, tokens, or production records |
+| `src/api/store-api.client.ts` | Typed wrappers for catalog and order endpoint calls | UI navigation and scenario assertions |
 | `src/data/` *(next milestone)* | Synthetic, non-secret deterministic test cases | Passwords, tokens, or production records |
 
 ## Environment selection
@@ -53,4 +53,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current code includes focused catalog, cart, and checkout page objects with typed fixtures. UI scenarios use synthetic centralized data while assertions remain in the tests. Follow-up milestones will introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code includes focused catalog, cart, and checkout page objects, a typed API client fixture, and centralized synthetic data. UI and API scenarios use these boundaries while assertions remain in tests. Follow-up milestones will add authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.

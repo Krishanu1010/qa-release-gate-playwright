@@ -1,5 +1,5 @@
 import { expect, test } from '../src/fixtures/test';
-import { customers, demoProducts } from '../src/data/store-data';
+import { customers, demoProducts, expectedAscendingPriceOrder } from '../src/data/store-data';
 
 test.describe('Storefront release gate', () => {
   test('catalog renders products and clear availability states @smoke', async ({ catalogPage }) => {
@@ -13,10 +13,9 @@ test.describe('Storefront release gate', () => {
   test('sort control orders products by ascending price', async ({ catalogPage }) => {
     await catalogPage.goto();
     await catalogPage.sortBy('price-asc');
-    await expect(catalogPage.productCardAt(0)).toContainText('Trailhead Mug');
-    await expect(catalogPage.productCardAt(1)).toContainText('Steel Bottle');
-    await expect(catalogPage.productCardAt(2)).toContainText('Camp Lantern');
-    await expect(catalogPage.productCardAt(3)).toContainText('Daypack 18L');
+    for (const [position, product] of expectedAscendingPriceOrder.entries()) {
+      await expect(catalogPage.productCardAt(position)).toContainText(product.name);
+    }
   });
 
   test('cart count updates and empty checkout is blocked @smoke', async ({ catalogPage, cartPage, checkoutPage }) => {
