@@ -9,14 +9,13 @@ test.describe('Storefront release gate', () => {
     await expect(catalogPage.productCard('Trailhead Mug')).toContainText('$18.50');
   });
 
-  test('sort control orders products by ascending price', async ({ page }) => {
-    await page.goto('/');
-    await page.getByLabel('Sort').selectOption('price-asc');
-    const cards = page.locator('[data-product]');
-    await expect(cards.nth(0)).toContainText('Trailhead Mug');
-    await expect(cards.nth(1)).toContainText('Steel Bottle');
-    await expect(cards.nth(2)).toContainText('Camp Lantern');
-    await expect(cards.nth(3)).toContainText('Daypack 18L');
+  test('sort control orders products by ascending price', async ({ catalogPage }) => {
+    await catalogPage.goto();
+    await catalogPage.sortBy('price-asc');
+    await expect(catalogPage.productCardAt(0)).toContainText('Trailhead Mug');
+    await expect(catalogPage.productCardAt(1)).toContainText('Steel Bottle');
+    await expect(catalogPage.productCardAt(2)).toContainText('Camp Lantern');
+    await expect(catalogPage.productCardAt(3)).toContainText('Daypack 18L');
   });
 
   test('cart count updates and empty checkout is blocked @smoke', async ({ page }) => {

@@ -52,4 +52,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current code now includes the catalog POM and its focused fixture; only the catalog smoke test has migrated so far. Follow-up milestones will migrate other scenarios when their page responsibilities are clear, then introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code includes the catalog POM and focused fixture; the catalog smoke and sort tests use them while cart and checkout scenarios still use Playwright's built-in page fixture. Follow-up milestones will migrate other scenarios when their page responsibilities are clear, then introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.

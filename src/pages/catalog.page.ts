@@ -21,6 +21,10 @@ export class CatalogPage {
     await this.page.getByLabel('Sort').selectOption(order);
   }
 
+  productCardAt(position: number): Locator {
+    return this.productCards.nth(position);
+  }
+
   productCard(productName: string): Locator {
     return this.productCards.filter({
       has: this.page.getByRole('heading', { name: productName, exact: true }),
