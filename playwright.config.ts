@@ -16,7 +16,21 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 2 : undefined,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [
+    ['list'],
+    ['html', { open: 'never' }],
+    [
+      'allure-playwright',
+      {
+        resultsDir: 'allure-results',
+        environmentInfo: {
+          test_environment: environment.name,
+          node_version: process.version,
+          operating_system: process.platform,
+        },
+      },
+    ],
+  ],
   use: {
     baseURL: environment.baseURL,
     trace: 'retain-on-failure',

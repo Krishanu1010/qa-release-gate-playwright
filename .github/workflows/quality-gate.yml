@@ -32,7 +32,11 @@ jobs:
       - name: Type check
         run: pnpm typecheck
       - name: Run release gate
+        id: tests
         run: pnpm test
+      - name: Generate Allure report
+        if: ${{ always() && steps.tests.outcome != 'skipped' }}
+        run: pnpm allure:generate
       - name: Upload Playwright report and failure artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -41,4 +45,6 @@ jobs:
           path: |
             playwright-report/
             test-results/
+            allure-results/
+            allure-report/
           retention-days: 14

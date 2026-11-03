@@ -32,7 +32,7 @@ flowchart TD
 | `src/pages/` | Page-specific locators and user actions for catalog, cart summary, and checkout | Assertions that belong to scenario intent |
 | `src/data/store-data.ts` | Synthetic product definitions/order and customer details shared by scenarios | Passwords, tokens, or production records |
 | `src/api/store-api.client.ts` | Typed wrappers for catalog and order endpoint calls | UI navigation and scenario assertions |
-| `src/data/` *(next milestone)* | Synthetic, non-secret deterministic test cases | Passwords, tokens, or production records |
+| Allure reporter | Run metadata, environment context, and test attachments in `allure-results/` | Stale output from earlier runs or secrets |
 
 ## Environment selection
 
@@ -53,4 +53,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current code includes focused catalog, cart, and checkout page objects, a typed API client fixture, and centralized synthetic data. UI and API scenarios use these boundaries while assertions remain in tests. Follow-up milestones will add authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code includes focused catalog, cart, and checkout page objects, a typed API client fixture, centralized synthetic data, and Allure result generation. UI and API scenarios use these boundaries while assertions remain in tests. Follow-up milestones will add authentication state and richer CI evidence. Docker remains optional until it solves an observed environment-parity problem.
