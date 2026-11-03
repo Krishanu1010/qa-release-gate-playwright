@@ -15,7 +15,13 @@ A recruiter-friendly QA engineering project showing how I plan and automate a sm
 
 ## Quick start
 
-Requirements: Node.js 20 or newer.
+Requirements: Node.js 22 or newer and pnpm 11.25.0. The CI workflow uses Node.js 22, which is supported by the pinned pnpm release.
+
+Install pnpm if it is not already available:
+
+```bash
+npm install --global pnpm@11.25.0
+```
 
 ```bash
 pnpm install
@@ -42,7 +48,7 @@ pnpm test:smoke    # Critical tagged journeys
 pnpm report        # Open the last HTML report
 ```
 
-Local and CI runs start the included demo app automatically. For a compatible staging target, copy `.env.example` to `.env`, set `TEST_ENV=staging` and `BASE_URL` to the target URL; the local demo server will not be started. API tests use the configured base URL.
+Local and CI runs start the included demo app automatically. For a compatible staging target, copy `.env.example` to `.env`, set `TEST_ENV=staging` and `BASE_URL` to the target URL; the local demo server will not be started. Staging must implement the routes and demo account behavior covered by this suite. Set `QA_CUSTOMER_PASSWORD` and `QA_AGENT_PASSWORD` through environment variables or CI secrets; API tests use the configured base URL.
 
 ## Coverage map
 
