@@ -28,8 +28,8 @@ flowchart TD
 | `config/environment.ts` | Select local, CI, or staging target; validate `BASE_URL` before startup | Credentials and test behavior |
 | `playwright.config.ts` | Runner defaults, projects, retries, artifacts, and local demo server lifecycle | Business assertions |
 | `tests/` | Scenario intent and meaningful expected outcomes | Low-level duplicated page selectors |
-| `src/fixtures/` *(next milestone)* | Compose Playwright fixtures, page objects, API clients, and data for tests | Unrelated global mutable state |
-| `src/pages/` *(next milestone)* | Page-specific locators and user actions | Assertions that belong to scenario intent |
+| `src/fixtures/test.ts` | Provide the shared `CatalogPage` fixture and re-export Playwright's `expect` | Unrelated global mutable state |
+| `src/pages/catalog.page.ts` | Catalog-specific locators and user actions | Assertions that belong to scenario intent |
 | `src/api/` *(next milestone)* | Typed endpoint calls and response validation | UI navigation |
 | `src/data/` *(next milestone)* | Synthetic, non-secret deterministic test cases | Passwords, tokens, or production records |
 
@@ -52,4 +52,4 @@ flowchart TD
 
 ## Evolution plan
 
-The current milestone adds environment selection and architecture documentation while retaining the existing tests. Follow-up milestones will introduce POM and focused fixtures, then typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.
+The current code now includes the catalog POM and its focused fixture; only the catalog smoke test has migrated so far. Follow-up milestones will migrate other scenarios when their page responsibilities are clear, then introduce typed API clients and authentication state, then Allure and CI evidence. Docker remains optional until it solves an observed environment-parity problem.

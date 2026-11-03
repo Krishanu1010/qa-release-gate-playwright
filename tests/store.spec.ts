@@ -1,12 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test } from '../src/fixtures/test';
 
 test.describe('Storefront release gate', () => {
-  test('catalog renders products and clear availability states @smoke', async ({ page }) => {
-    await page.goto('/');
-    await expect(page.getByRole('heading', { name: 'Field-tested essentials' })).toBeVisible();
-    await expect(page.getByRole('article')).toHaveCount(4);
-    await expect(page.getByRole('button', { name: 'Out of stock' })).toBeDisabled();
-    await expect(page.getByText('$18.50')).toBeVisible();
+  test('catalog renders products and clear availability states @smoke', async ({ catalogPage }) => {
+    await catalogPage.goto();
+    await expect(catalogPage.heading).toBeVisible();
+    await expect(catalogPage.productCards).toHaveCount(4);
+    await expect(catalogPage.unavailableButton).toBeDisabled();
+    await expect(catalogPage.productCard('Trailhead Mug')).toContainText('$18.50');
   });
 
   test('sort control orders products by ascending price', async ({ page }) => {
